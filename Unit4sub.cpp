@@ -88,19 +88,19 @@ void __fastcall TForm4::FormCreate(TObject *Sender)
 			controllers = 1;
 	}
 
-   midlex=(joycaps.wXmax+joycaps.wXmin)/2.0;
-   flexx=midlex/10.0+1;
+   midlex=(joycaps.wXmax+joycaps.wXmin+1)/2.0;
+   flexx=midlex/10.0;
    midley=(joycaps.wYmax+joycaps.wYmin)/2.0;
    flexy=(joycaps.wYmax-joycaps.wYmin)/10.0;
    //fprintf (output, "flexx: %d, midlex: %d, flexy: %d, midley: %d", flexx, midlex, flexy, midley);
 
-   midlex2=(joycaps2.wXmax+joycaps2.wXmin)/2.0;
-   flexx2=midlex2/10.0+1;
+   midlex2=(joycaps2.wXmax+joycaps2.wXmin+1)/2.0;
+   flexx2=midlex2/10.0;
    midley2=(joycaps2.wYmax+joycaps2.wYmin)/2.0;
    flexy2=(joycaps2.wYmax-joycaps2.wYmin)/10.0;
 
-   midlex3=(joycaps3.wXmax+joycaps3.wXmin)/2.0;
-   flexx3=midlex3/10.0+1;
+   midlex3=(joycaps3.wXmax+joycaps3.wXmin+1)/2.0;
+   flexx3=midlex3/10.0;
    midley3=(joycaps3.wYmax+joycaps3.wYmin)/2.0;
    flexy3=(joycaps3.wYmax-joycaps3.wYmin)/10.0;
 
@@ -210,7 +210,7 @@ void __fastcall TForm4::N3Click(TObject *Sender)
 void joystick1 (void)
 {
 	joyGetPosEx(JOYSTICKID1,&joyinfoex);
-	if(joyinfoex.dwXpos > midlex + flexx)
+	if(joyinfoex.dwXpos > midlex + flexx || joyinfoex.dwPOV == 9000)
 	{
 		if (player1.blist [19 + mv [0].offset.y + mv [0].r[0].y].t [mv [0].r[0].x + mv [0].offset.x + 1]
 													   + player1.blist [19 + mv [0].offset.y + mv [0].r[1].y].t [mv [0].r[1].x + mv [0].offset.x + 1]
@@ -224,7 +224,7 @@ void joystick1 (void)
 		}
 		//Label1->Caption ="RIGHT"; //midle=32K
 	}
-	if(joyinfoex.dwXpos < midlex - flexx)
+	if(joyinfoex.dwXpos < midlex - flexx || joyinfoex.dwPOV == 27000)
 	{
 		if (player1.blist [19 + mv [0].offset.y + mv [0].r[0].y].t [mv [0].r[0].x + mv [0].offset.x - 1]
 		+ player1.blist [19 + mv [0].offset.y + mv [0].r[1].y].t [mv [0].r[1].x + mv [0].offset.x - 1]
@@ -238,7 +238,7 @@ void joystick1 (void)
 		}
 		//Label1->Caption ="LEFT";
 	}
-	if(joyinfoex.dwYpos > midley + flexy && ReservedX == 0)
+	if((joyinfoex.dwYpos > midley + flexy || joyinfoex.dwPOV == 18000) && ReservedX == 0)
 	{
 		ReservedDown = 1;
 		//Label1->Caption ="DOWN";
@@ -255,7 +255,7 @@ void joystick1 (void)
 void joystick2 (void)
 {
 	joyGetPosEx(JOYSTICKID2,&joyinfoex2);
-	if(joyinfoex2.dwXpos > midlex2 + flexx2)
+	if(joyinfoex2.dwXpos > midlex2 + flexx2 || joyinfoex2.dwPOV == 9000)
 	{
 		if (player2.blist [19 + mv [1].offset.y + mv [1].r[0].y].t [mv [1].r[0].x + mv [1].offset.x + 1]
 		+ player1.blist [19 + mv [1].offset.y + mv [1].r[1].y].t [mv [1].r[1].x + mv [1].offset.x + 1]
@@ -269,7 +269,7 @@ void joystick2 (void)
 		}
 	//Label1->Caption ="RIGHT2"; //midle=32K
 	}
-	if(joyinfoex2.dwXpos < midlex2 - flexx2)
+	if(joyinfoex2.dwXpos < midlex2 - flexx2 || joyinfoex2.dwPOV == 27000)
 	{
 		if (player2.blist [19 + mv [1].offset.y + mv [1].r[0].y].t [mv [1].r[0].x + mv [1].offset.x - 1]
 		+ player2.blist [19 + mv [1].offset.y + mv [1].r[1].y].t [mv [1].r[1].x + mv [1].offset.x - 1]
@@ -283,7 +283,7 @@ void joystick2 (void)
 		}
 		//Label1->Caption ="LEFT2";
 	}
-	if(joyinfoex2.dwYpos > midley2 + flexy2 && ReservedX2 == 0)
+	if((joyinfoex2.dwYpos > midley2 + flexy2 || joyinfoex2.dwPOV == 18000) && ReservedX2 == 0)
 	{
 		ReservedDown2 = 1;
 		//Label1->Caption ="DOWN2";
@@ -299,7 +299,7 @@ void joystick2 (void)
 void joystick3 ()
 {
 	joyGetPosEx(JOYSTICKID1+2,&joyinfoex3);
-	if(joyinfoex3.dwXpos > midlex3 + flexx3)
+	if(joyinfoex3.dwXpos > midlex3 + flexx3 || joyinfoex3.dwPOV == 9000)
 	{
 		if (player3.blist [19 + mv [2].offset.y + mv [2].r[0].y].t [mv [2].r[0].x + mv [2].offset.x + 1]
 		 + player3.blist [19 + mv [2].offset.y + mv [2].r[1].y].t [mv [2].r[1].x + mv [2].offset.x + 1]
@@ -312,7 +312,7 @@ void joystick3 ()
 		}
 		//Label1->Caption ="RIGHT3"; //midle=32K
 	}
-	if(joyinfoex3.dwXpos < midlex3 - flexx3)
+	if(joyinfoex3.dwXpos < midlex3 - flexx3 || joyinfoex3.dwPOV == 27000)
 	{
 		if (player1.blist [19 + mv [2].offset.y + mv [2].r[0].y].t [mv [2].r[0].x + mv [2].offset.x - 1]
 		+ player1.blist [19 + mv [2].offset.y + mv [2].r[1].y].t [mv [2].r[1].x + mv [2].offset.x - 1]
@@ -326,7 +326,7 @@ void joystick3 ()
 		}
 		//Label1->Caption ="LEFT3";
 	}
-	if(joyinfoex3.dwYpos > midley3 + flexy3 && ReservedX3 == 0)
+	if((joyinfoex3.dwYpos > midley3 + flexy3 || joyinfoex3.dwPOV == 18000) && ReservedX3 == 0)
 	{
 		ReservedDown3 = 1;
 		//Label1->Caption ="DOWN3";

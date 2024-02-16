@@ -11,11 +11,9 @@ object Form4: TForm4
   Font.Name = 'Tahoma'
   Font.Style = []
   Menu = MainMenu1
-  OldCreateOrder = False
   Visible = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
-  PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
     Left = 346
@@ -43,7 +41,7 @@ object Form4: TForm4
     OnNotify = MediaPlayer1Notify
   end
   object Timer1: TTimer
-    Interval = 80
+    Interval = 100
     OnTimer = Timer1Timer
     Left = 384
     Top = 16

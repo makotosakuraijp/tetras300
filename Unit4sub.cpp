@@ -40,6 +40,8 @@ extern int BFT5 [4][4][2];
 extern int BFT6 [4][4][2];
 extern int BFT7 [4][4][2];
 
+int MusicFlag = 0;
+
 void __fastcall TForm4::FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift)
 {
 	TColor colorSelect [7] = {clBlue, clLime, clFuchsia, clRed, clAqua, clYellow, clGray};
@@ -110,17 +112,9 @@ void __fastcall TForm4::FormCreate(TObject *Sender)
 
 void __fastcall TForm4::MediaPlayer1Notify(TObject *Sender)
 {
-	if (MediaPlayer1->FileName == (System::UnicodeString) "IFLOGO.wav")
+	if (MusicFlag == 1)
 	{
-		music++;
-		MediaPlayer1->FileName = "UEHR.wav";
-		MediaPlayer1->Open ();
-		MediaPlayer1->Play ();
-		Image1->Picture->LoadFromFile("TETRAS.bmp");
-	}
-	else if (MediaPlayer1->FileName == (System::UnicodeString) "UEHR.wav")
-	{
-		music++;
+		music = 2;
 		MediaPlayer1->FileName = "XMAS.wav";
 		MediaPlayer1->Open ();
 		MediaPlayer1->Play ();
@@ -131,13 +125,39 @@ void __fastcall TForm4::MediaPlayer1Notify(TObject *Sender)
 		BlockTypeSeq.resize (1);
 		BlockTypeSeq [0] = std::rand () % 28;
 		this->Menu = NULL;
-
+		MusicFlag = 0;
 	}
-	else if (MediaPlayer1->FileName == (System::UnicodeString) "XMAS.wav")
+	else
 	{
-		MediaPlayer1->Open ();
-		MediaPlayer1->Play ();
-		this->Menu = NULL;
+		if (MediaPlayer1->FileName == (System::UnicodeString) "IFLOGO.wav")
+		{
+			music = 1;
+			MediaPlayer1->FileName = "UEHR.wav";
+			MediaPlayer1->Open ();
+			MediaPlayer1->Play ();
+			Image1->Picture->LoadFromFile("TETRAS.bmp");
+		}
+		else if (MediaPlayer1->FileName == (System::UnicodeString) "UEHR.wav")
+		{
+			music = 2;
+			MediaPlayer1->FileName = "XMAS.wav";
+			MediaPlayer1->Open ();
+			MediaPlayer1->Play ();
+			Image1->Left = 30;
+			Image1->Top = 360;
+			Image1->Picture->LoadFromFile("MirageSince1996.bmp");
+			//Image1->Visible = False;
+			BlockTypeSeq.resize (1);
+			BlockTypeSeq [0] = std::rand () % 28;
+			this->Menu = NULL;
+		}
+		else if (MediaPlayer1->FileName == (System::UnicodeString) "XMAS.wav")
+		{
+			MediaPlayer1->Open ();
+			MediaPlayer1->Play ();
+			this->Menu = NULL;
+			//MusicFlag = 0;
+		}
 	}
 }
 //---------------------------------------------------------------------------
@@ -147,6 +167,20 @@ void __fastcall TForm4::N1Click(TObject *Sender)
 	if (MediaPlayer1->FileName == (System::UnicodeString) "XMAS.wav")
 		return;
 	PlayMode = 1;
+
+		//music = 2;
+		MusicFlag = 1;
+		MediaPlayer1->Stop ();
+		//MediaPlayer1->FileName = "XMAS.wav";
+		//MediaPlayer1->Open ();
+		//MediaPlayer1->Play ();
+		//Image1->Left = 30;
+		//Image1->Top = 360;
+		//Image1->Picture->LoadFromFile("MirageSince1996.bmp");
+		//Image1->Visible = False;
+		//BlockTypeSeq.resize (1);
+		//BlockTypeSeq [0] = std::rand () % 28;
+		//this->Menu = NULL;
 }
 //---------------------------------------------------------------------------
 
@@ -172,6 +206,9 @@ void __fastcall TForm4::N2Click(TObject *Sender)
 	}
 	ChargeWithHall [1].bfnt [TetrisHall [1]] = 0;
 	ChargeWithHall [1].t [TetrisHall [1]] = 0;
+
+		MusicFlag = 1;
+		MediaPlayer1->Stop ();
 }
 //---------------------------------------------------------------------------
 
@@ -205,6 +242,9 @@ void __fastcall TForm4::N3Click(TObject *Sender)
 	}
 	ChargeWithHall [2].bfnt [TetrisHall [2]] = 0;
 	ChargeWithHall [2].t [TetrisHall [2]] = 0;
+
+		MusicFlag = 1;
+		MediaPlayer1->Stop ();
 }
 
 void joystick1 (void)
